@@ -1,0 +1,30 @@
+---
+import { actions } from "astro:actions";
+import Layout from "../../layouts/Layout.astro";
+
+const { id } = Astro.params;
+
+let task;
+
+try {
+    if (id) {
+        const { data } = await actions.getOne({ id: +id });
+        console.log(data);
+
+        task = data;
+    }
+} catch (error) {
+    console.log(error);
+}
+---
+
+<Layout title="Task">
+    {
+        task && (
+            <div>
+                <h1>{task.title}</h1>
+                {task.isDone ? <p>Done</p> : <p>Not done</p>}
+            </div>
+        )
+    }
+</Layout>
